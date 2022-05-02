@@ -1,0 +1,33 @@
+{
+  "name": "simple-shopping-cart---reactjs-koajs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amila1998/simple-shopping-cart---reactjs-koajs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amila1998/simple-shopping-cart---reactjs-koajs/issues"
+  },
+  "type": "module",
+  "homepage": "https://github.com/amila1998/simple-shopping-cart---reactjs-koajs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "concurrently": "^7.1.0",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-cors": "0.0.16",
+    "koa-json": "^2.0.2",
+    "koa-router": "^10.1.1"
+  }
+}
