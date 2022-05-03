@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import config from "../config/index.js";
+import jwt from  'jsonwebtoken';
 
 const users = new Map();
 let message,status;
@@ -40,9 +42,84 @@ export const register = async (ctx)=>{
 } 
 
 export const login = async(ctx)=>{
-    ctx.body = "hiiiiiiiiii";
+    try {
+        const {email, password} = ctx.request.body;
+
+        const user = await users.has(email);
+        if(!user){
+            status=400;
+            message="User does not exist.";
+        }else{
+            const userDetails = await users.get(email);
+            const isMatch = await bcrypt.compare(password, userDetails.password)
+            if(!isMatch){
+                status=400;
+                message="Incorrect password."; 
+            }else{
+               
+                // If login success , create access token and refresh token
+                const accesstoken = createAccessToken({email: userDetails.email})
+                const refreshtoken = createRefreshToken({email: userDetails.email})
+
+                ctx.cookies.set('refreshtoken', refreshtoken, { 
+                    httpOnly: true, 
+                    sameSite: "none", 
+                    secureProxy: true,
+                    path: '/user/refresh_token',
+                    maxAge: 7*24*60*60*1000 // 7d
+                });
+
+
+                
+                status=200;
+                message={msg:"Login Successfull",token:accesstoken}; 
+
+            }
+                ctx.body = message;
+                ctx.status = status;
+        }
+
+        
+
+        
+
+    } catch (err) {
+        status=500;
+        message= err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
 }
 
-export const read = async(ctx)=>{
-    ctx.body = "hiiiiiiiiii";
+export const  getUser = async(ctx)=>{
+    try {
+        const user = await users.has(ctx.request.user.email);
+        if(!user){
+            status=400;
+            message="User does not exist.";
+        }else{
+            const userDetails = await users.get(ctx.request.user.email);
+            status=200;
+            message=userDetails;
+        }
+
+        
+    } catch (err) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+
+
+
+
+
+const createAccessToken = (user) =>{
+    return jwt.sign(user, config.ACCESS_TOKEN_SECRET, {expiresIn: '11m'})
+}
+const createRefreshToken = (user) =>{
+    return jwt.sign(user, config.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
 }
