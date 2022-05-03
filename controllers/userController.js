@@ -33,6 +33,9 @@ export const register = async (ctx)=>{
     ctx.status = status;
 } 
 
+export const login = async(ctx)=>{
+    ctx.body = "hiiiiiiiiii";
+}
 
 export const read = async(ctx)=>{
     ctx.body = "hiiiiiiiiii";
