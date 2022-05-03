@@ -1,0 +1,11 @@
+
+.noitems { 
+    text-align: center;
+    font-size: 26px;
+    margin: auto;
+    align-items: center;
+}
+
+.noitems img{
+    width: 50%;
+}

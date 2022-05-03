@@ -6,7 +6,7 @@
 
 header{
     position: fixed sticky;
-  
+    
     
 }
 
@@ -17,6 +17,8 @@ footer{
     bottom: 0;
     width: 100%;
     text-align: center;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
 }
 
 main{
