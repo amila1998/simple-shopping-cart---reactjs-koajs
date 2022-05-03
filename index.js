@@ -14,7 +14,7 @@ app.use(bodyparser());
 app.use(json());
 app.use(cors());
 app.use(CookieParser({
-    cookieNameList:['refreshtoken'],
+    cookieNameList:['refreshtoken','foo'],
 }));
 
 

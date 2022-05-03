@@ -63,14 +63,11 @@ export const login = async(ctx)=>{
 
                 ctx.cookies.set('refreshtoken', refreshtoken, { 
                     httpOnly: true, 
-                    sameSite: "none", 
-                    secureProxy: true,
+                    // secureProxy: true,
                     path: '/user/refresh_token',
                     maxAge: 7*24*60*60*1000 // 7d
                 });
-
-
-                
+  
                 status=200;
                 message={msg:"Login Successfull",token:accesstoken}; 
 
@@ -78,10 +75,6 @@ export const login = async(ctx)=>{
                 ctx.body = message;
                 ctx.status = status;
         }
-
-        
-
-        
 
     } catch (err) {
         status=500;
@@ -103,7 +96,47 @@ export const  getUser = async(ctx)=>{
             message=userDetails;
         }
 
-        
+    } catch (err) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+
+export const logout = async(ctx)=>{
+        try {
+            ctx.cookies.set('refreshtoken','',{path: '/user/refresh_token'});
+            message="Logged out";
+            status=200;
+        } catch (err) {
+            message=err.message;
+            status=500;
+        }
+        ctx.body = message;
+        ctx.status = status;
+}
+
+export const refreshToken = async(ctx)=>{
+    try {
+        const rf_token = ctx.cookies.get('refreshtoken');
+        if(!rf_token){
+            status=400;
+            message="Please Login or Register";
+        }else{
+            jwt.verify(rf_token, config.REFRESH_TOKEN_SECRET, (err, user) =>{
+                if(err){
+                    status=400;
+                    message="Please Login or Register";
+                }else{
+                    const accesstoken = createAccessToken({email: user.email})
+                    status=200;
+                    message={token:accesstoken};
+                }
+            })
+           
+        }
     } catch (err) {
         status=500;
         message=err.message;
