@@ -146,6 +146,25 @@ export const refreshToken = async(ctx)=>{
 }
 
 
+export const getUserDetails = async(ctx)=>{
+    try {
+        const email = ctx.params.email;
+        const user = await users.has(email);
+        if (user) {
+            status=200;
+            message= await users.get(email);
+        } else {
+            status=404;
+            message= "user Not Found!";
+        }
+    } catch (err) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
 
 
 

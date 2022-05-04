@@ -7,7 +7,6 @@ const { verify } = pkg;
 const auth =  (ctx, next) =>{
     try {
         const token = ctx.get('Authorization');
-        console.log(token);
         if(!token){
             ctx.status=400;
             ctx.body="Invalid Authentication";

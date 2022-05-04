@@ -1,4 +1,4 @@
-import { users,myCart, myWatchedList, items } from "../data/data.js";
+import { users,myCart, myWatchedList, items,promotions } from "../data/data.js";
 
 let message,status;
 
@@ -149,7 +149,7 @@ export const editItem = (ctx)=>{
 
 export const deleteItem=async(ctx) =>{
     try {
-        await items.delete(ctx.request.params.itemID)
+        await items.delete(ctx.params.itemID)
         status=200;
         message="Deleted a Product";
         
@@ -168,6 +168,48 @@ export const allItems=async(ctx) =>{
         status=200;
         message=[...items.values()];
         
+    } catch (err) {
+        status=500;
+        message=err.message;
+        
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+export const addPromotions = async(ctx)=>{
+    try {
+        const itemID = ctx.params.itemID;
+        const item = await items.has(itemID);
+        if (!item) {
+            status=404;
+            message="Ïtem Not Found";
+        } else {
+            const {promotionCode,title,description,precentage} = ctx.request.body;
+            const existPromotion = await promotions.has(promotionCode);
+            if (existPromotion) {
+                status=400;
+                message="Already Have that Promotion";
+            } else {
+                await promotions.set(promotionCode,{promotionCode:promotionCode,itemID:itemID,title:title,description:description,precentage:description});
+                status=200;
+                message="Promotion added !!!";
+            }
+        }
+    } catch (err) {
+        status=500;
+        message=err.message;
+
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+
+export const viewPromotions = async(ctx)=>{
+    try {
+        status=200;
+        message=[...promotions.values()];
     } catch (err) {
         status=500;
         message=err.message;
