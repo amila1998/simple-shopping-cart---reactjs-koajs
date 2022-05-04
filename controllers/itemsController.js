@@ -1,4 +1,5 @@
-import { users,myCart, myWatchedList } from "../data/data.js";
+import { users,myCart, myWatchedList, items } from "../data/data.js";
+
 let message,status;
 
 export const addCart = async(ctx)=>{
@@ -97,3 +98,81 @@ export const getwatchedList = async(ctx)=>{
     ctx.body = message;
     ctx.status = status;
 };
+
+export const createItem =async(ctx)=>{
+    try {
+        const {itemID, title, price, description, category,qty} = ctx.request.body;
+       
+
+        const exitItem = await items.has(itemID)
+        if(exitItem){
+            status=400;
+            message="This product already exists.";
+        }else{
+   
+            items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty})
+            status=200;
+            message="Created a product";
+        }
+        
+
+    } catch (err) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+
+export const editItem = (ctx)=>{
+    try {
+        const {itemID, title, price, description, category,qty} = ctx.request.body;
+        const item = items.has(itemID);
+        if (!item) {
+            status=400;
+            message="No item Found";
+        } else {
+            
+            items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty});
+            status=200;
+            message="update Success";
+        }
+        
+    } catch (err) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+export const deleteItem=async(ctx) =>{
+    try {
+        await items.delete(ctx.request.params.itemID)
+        status=200;
+        message="Deleted a Product";
+        
+    } catch (err) {
+        status=500;
+        message=err.message;
+        
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+export const allItems=async(ctx) =>{
+    try {
+        
+        status=200;
+        message=[...items.values()];
+        
+    } catch (err) {
+        status=500;
+        message=err.message;
+        
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
