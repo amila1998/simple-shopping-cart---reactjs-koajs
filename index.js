@@ -5,6 +5,7 @@ import bodyparser from 'koa-bodyparser';
 import CookieParser from 'koa-cookie-parser';
 
 import userRouter  from './routers/userRouter.js';
+import itemsRouter  from './routers/itemsRouter.js';
 import config from './config/index.js';
 
 const app = new koa();
@@ -14,11 +15,12 @@ app.use(bodyparser());
 app.use(json());
 app.use(cors());
 app.use(CookieParser({
-    cookieNameList:['refreshtoken','foo'],
+    cookieNameList:['refreshtoken'],
 }));
 
 
 app.use(userRouter.routes()).use(userRouter.allowedMethods());
+app.use(itemsRouter.routes()).use(itemsRouter.allowedMethods());
 
 //Server listening port
 app.listen(config.PORT,()=>{

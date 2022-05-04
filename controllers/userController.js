@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import config from "../config/index.js";
 import jwt from  'jsonwebtoken';
+import { users } from "../data/data.js";
 
-const users = new Map();
 let message,status;
 
 export const register = async (ctx)=>{

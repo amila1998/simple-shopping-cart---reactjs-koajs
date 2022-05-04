@@ -2,7 +2,7 @@ import pkg from 'jsonwebtoken';
 import config from '../config/index.js';
 const { verify } = pkg;
 
-let messsage,status;
+
 
 const auth =  (ctx, next) =>{
     try {
