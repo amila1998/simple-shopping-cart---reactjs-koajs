@@ -1,6 +1,7 @@
 import koaRouter from 'koa-router';
-import { addCart, addWatchedList, allItems, createItem, getCart, getwatchedList } from '../controllers/itemsController.js';
+import { addCart, addWatchedList, allItems, createItem, deleteItem, getCart, getwatchedList } from '../controllers/itemsController.js';
 import auth from '../middleware/auth.js';
+import authTrader from '../middleware/authTrader.js';
 
 const itemsRouter = new koaRouter(({ prefix: '/items' }));
 
@@ -12,6 +13,7 @@ itemsRouter.get('/getWatchedList',auth, getwatchedList);
 
 itemsRouter.get('/allItems',allItems);
 itemsRouter.post('/createItems',createItem);
+itemsRouter.delete('/deleteItem/:itemID',auth,authTrader ,deleteItem);
 
 
 export default itemsRouter;

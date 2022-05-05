@@ -3,6 +3,7 @@ import {GlobalState} from '../../GlobalState';
 import ProductItem from '../productItem/productItem';
 import './products.css';
 import { NoItems } from '../noItems/NoItems';
+import axios from 'axios';
 
 
 function Products() {
@@ -14,7 +15,18 @@ function Products() {
 
 
     const deleteProduct = async(itemID) => {
-        
+        try {
+                const deleteProduct = axios.delete(`http://localhost:5000/items/deleteItem/${itemID}`, {
+                headers: {Authorization: token}
+            })
+            console.log(deleteProduct);
+            alert("Deleted a Product");
+            window.location.href = "/";
+           
+        } catch (err) {
+            console.log(err);
+            alert(err.response.data);
+        }
     }
 
     return (

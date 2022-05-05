@@ -26,6 +26,7 @@ const App = () =>{
     <Route path="/authentication" element={isLogged ? <Navigate to="/"/> : <AuthLayout/>} />
     <Route path="/cart" element={<Cart/>} />
     <Route path="/detail/:id" element={<DetailProduct/>} />
+    <Route path="/edit_product/:itemID" element={isAdmin ? <CreateProduct/> : <Navigate to="/"/>} />
 
 
     </Routes>
