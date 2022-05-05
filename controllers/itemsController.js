@@ -127,18 +127,24 @@ export const createItem =async(ctx)=>{
 
 export const editItem = (ctx)=>{
     try {
-        const {itemID, title, price, description, category,qty} = ctx.request.body;
-        const item = items.has(itemID);
-        if (!item) {
+        const data = ctx.request.body;
+        const id = ctx.request.params.itemID;
+        const {itemID, title, price, description, category,qty} = data;
+        if(id!=itemID){
             status=400;
-            message="No item Found";
-        } else {
-            
-            items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty});
-            status=200;
-            message="update Success";
+            message="Item Id no matched";
+        }else{
+            const item = items.has(id);
+            if (!item) {
+                status=400;
+                message="No item Found";
+            } else {
+                
+                items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty,img:"https://res.cloudinary.com/amiladevin1998/image/upload/v1651707770/def/11_mbd0od.png"});
+                status=200;
+                message="update Success";
+            }
         }
-        
     } catch (err) {
         status=500;
         message=err.message;

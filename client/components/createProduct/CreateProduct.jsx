@@ -1,19 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
 import axios from 'axios';
-import {GlobalState} from '../../../GlobalState';
-import Loading from '../utils/loading/Loading';
+import {GlobalState} from '../../GlobalState';
 import {useNavigate, useParams} from 'react-router-dom';
-import  "./createProduct.css";
+//import  "./createProduct.css";
 
 
 const initialState = {
-    productitemID: '',
-    title: '',
-    price: 0,
-    description: '',
-    content: '',
-    category: '',
-    _id: ''
+    itemID:'', title:'', price:'', description:'', category:'',qty:''
 }
 
 function CreateProduct() {
@@ -28,7 +21,7 @@ function CreateProduct() {
 
     const [products] = state.productsAPI.products
     const [onEdit, setOnEdit] = useState(false)
-    const [callback, setCallback] = state.productsAPI.callback
+    
 
     useEffect(() => {
         if(param.itemID){
@@ -36,7 +29,7 @@ function CreateProduct() {
             products.forEach(product => {
                 if(product.itemID === param.itemID) {
                     setProduct(product)
-                    setImages(product.images)
+ 
                 }
             })
         }else{
@@ -44,7 +37,7 @@ function CreateProduct() {
             setProduct(initialState)
 
         }
-    }, [param.id, products])
+    }, [param.itemID, products])
 
     const handleChangeInput = e =>{
         const {name, value} = e.target
@@ -58,20 +51,23 @@ function CreateProduct() {
             
 
             if(onEdit){
-                const res=await axios.put(`/api/products/${product.itemID}`, {...product, images}, {
+                console.log(product);
+                const res=await axios.put(`http://localhost:5000/items/editItem/${product.itemID}`, {...product}, {
                     headers: {Authorization: token}
                 })
                 alert(res.data);
+                console.log(res);
             }else{
-                const res = await axios.post('/api/products', {...product, images}, {
+                const res = await axios.post('http://localhost:5000/items/createItems', {...product}, {
                     headers: {Authorization: token}
                 })
                alert(res.data);
+               console.log(res.status);
             }
-            setCallback(!callback)
-            history.push("/")
+            window.location.href = "/";
         } catch (err) {
-           alert(err.response.data.msg);
+           alert(err.response);
+           console.log(err);
           
         }
     }
@@ -80,18 +76,33 @@ function CreateProduct() {
         <div className="create_product">
 
             <div className="upload"> 
-                    <div id="file_img" style={styleUpload}>
+                    <div id="file_img">
                         <img src={product.img} alt=""/>
                         
                     </div>
             </div>
 
             <form onSubmit={handleSubmit}>
-                <div className="row">
+                {
+                    onEdit?
+                    <>
+                    <div className="row">
+                    <label htmlFor="itemID">Product ID</label>
+                    <input type="text" name="itemID" id="itemID" required
+                    value={product.itemID} onChange={handleChangeInput} disabled/>
+                    </div>
+                    </>
+                    :
+                    <>
+                     <div className="row">
                     <label htmlFor="productitemID">Product ID</label>
-                    <input type="text" name="productitemID" id="productitemID" required
-                    value={product.productitemID} onChange={handleChangeInput} disabled={onEdit} />
-                </div>
+                    <input type="text" name="itemID" id="itemID" required
+                    value={product.itemID} onChange={handleChangeInput}/>
+                    </div>
+                    </>
+                }
+
+                
 
                 <div className="row">
                     <label htmlFor="title">Title</label>
@@ -112,23 +123,14 @@ function CreateProduct() {
                 </div>
 
                 <div className="row">
-                    <label htmlFor="content">Content</label>
-                    <textarea type="text" name="content" id="content" required
-                    value={product.content} rows="7" onChange={handleChangeInput} />
+                    <label htmlFor="qty">Qty</label>
+                    <textarea type="text" name="qty" id="qty" required
+                    value={product.qty} rows="7" onChange={handleChangeInput} />
                 </div>
 
                 <div className="row">
                     <label htmlFor="categories">Categories: </label>
-                    <select name="category" value={product.category} onChange={handleChangeInput} >
-                        <option value="">Please select a category</option>
-                        {
-                            categories.map(category => (
-                                <option value={category.itemID} key={category.itemID}>
-                                    {category.name}
-                                </option>
-                            ))
-                        }
-                    </select>
+                   
                 </div>
 
                 <button type="submit">{onEdit? "Update" : "Create"}</button>
