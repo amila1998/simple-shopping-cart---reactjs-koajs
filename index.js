@@ -13,7 +13,10 @@ const app = new koa();
 
 app.use(bodyparser());
 app.use(json());
-app.use(cors());
+app.use(cors({
+    credentials:true,
+    origin:'http://localhost:3000',
+}));
 app.use(CookieParser({
     cookieNameList:['refreshtoken'],
 }));

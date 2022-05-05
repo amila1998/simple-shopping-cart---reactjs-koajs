@@ -28,8 +28,7 @@ const auth =  (ctx, next) =>{
     
     } catch (err) {
         ctx.status=500;
-        ctx.body=err.message;
-      
+        ctx.body=err.message;  
     }
 }
 

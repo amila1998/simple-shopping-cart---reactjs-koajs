@@ -10,7 +10,7 @@ export const addCart = async(ctx)=>{
             message="User does not exist."
         }else{
             const cart = ctx.request.body;
-            await myCart.set(ctx.request.user.email,{email:ctx.request.user.email,Items:[cart]});
+            await myCart.set(ctx.request.user.email,{email:ctx.request.user.email,cart:cart});
             status=200;
             message="Added to cart";
         }
@@ -37,7 +37,7 @@ export const getCart = async(ctx)=>{
                 status=200;
                 message=cart ;
             } else {
-                status=200;
+                status=400;
                 message="no Items" ;
             }
         }
@@ -60,7 +60,7 @@ export const addWatchedList = async(ctx)=>{
             message="User does not exist."
         }else{
             const watchedList = ctx.request.body;
-            await myWatchedList.set(ctx.request.user.email,{email:ctx.request.user.email,Items:[watchedList]});
+            await myWatchedList.set(ctx.request.user.email,{email:ctx.request.user.email,Items:watchedList});
             status=200;
             message="Added to cart";
         }
@@ -110,7 +110,7 @@ export const createItem =async(ctx)=>{
             message="This product already exists.";
         }else{
    
-            items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty})
+            items.set(itemID,{itemID:itemID,title:title, price:price, description:description, category:category, qty:qty, img:"https://res.cloudinary.com/amiladevin1998/image/upload/v1651707770/def/11_mbd0od.png"})
             status=200;
             message="Created a product";
         }
@@ -146,6 +146,9 @@ export const editItem = (ctx)=>{
     ctx.body = message;
     ctx.status = status;
 }
+
+
+
 
 export const deleteItem=async(ctx) =>{
     try {

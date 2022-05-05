@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Forgot from '../components/forgotPassword/Forgot';
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
+import "./authLayout.css";
 
 
 const AuthLayout = () => {

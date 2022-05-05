@@ -7,10 +7,10 @@ import authTrader from '../middleware/authTrader.js';
 const userRouter = new koaRouter(({ prefix: '/user' }));
 
 userRouter.get('/', auth ,  getUser);
-userRouter.post('/', register);
+userRouter.post('/register', register);
 userRouter.post('/login', login);
 userRouter.post('/logout', auth , logout);
-userRouter.post('/refresh_token', refreshToken);
+userRouter.get('/refresh_token/:token', refreshToken);
 userRouter.get('/getUserDetails/:email',auth, authTrader, getUserDetails);
 
 

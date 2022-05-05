@@ -1,0 +1,20 @@
+.authlayout{
+    width: 80%;
+    padding: 10px;
+    margin: auto;
+    border: 2px solid rgb(129, 129, 129);
+    border-radius: 20px;
+}
+
+.authlayout_actions{
+    justify-content: space-around;
+    display: flex;
+    cursor: pointer;
+}
+.authlayout_actions-r{
+    cursor: pointer;
+}
+
+.authlayout_actions-l{
+    cursor: pointer;
+}

@@ -27,8 +27,12 @@ export const register = async (ctx)=>{
                    role: role 
                 });
 
-                message="Registration Successfull !!! , Please Login :)";
+                message={msg:"Registration Successfull !!! , Please Login :)"};
                 status=200;
+
+                
+
+                
     
             }
         }
@@ -61,15 +65,15 @@ export const login = async(ctx)=>{
                 const accesstoken = createAccessToken({email: userDetails.email})
                 const refreshtoken = createRefreshToken({email: userDetails.email})
 
-                ctx.cookies.set('refreshtoken', refreshtoken, { 
-                    httpOnly: true, 
-                    // secureProxy: true,
-                    path: '/user/refresh_token',
-                    maxAge: 7*24*60*60*1000 // 7d
-                });
+                // window.cookies.set('refreshtoken', refreshtoken, { 
+                //     httpOnly: true, 
+                //     // secureProxy: true,
+                //     path: '/user/refresh_token',
+                //     maxAge: 7*24*60*60*1000 // 7d
+                // });
   
                 status=200;
-                message={msg:"Login Successfull",token:accesstoken}; 
+                message={msg:"Login Successfull",token:refreshtoken}; 
 
             }
                 ctx.body = message;
@@ -120,7 +124,9 @@ export const logout = async(ctx)=>{
 
 export const refreshToken = async(ctx)=>{
     try {
-        const rf_token = ctx.cookies.get('refreshtoken');
+        //I try to pass a cookie (koa-coockie-parser) but in postman work perfectly,, but in react frontend not working.. (not parse the cookie).. 
+        //So i use this method to to do that refresh the cookie... (but it not a best secure way) 
+        const rf_token = ctx.request.params.token;
         if(!rf_token){
             status=400;
             message="Please Login or Register";
@@ -132,7 +138,7 @@ export const refreshToken = async(ctx)=>{
                 }else{
                     const accesstoken = createAccessToken({email: user.email})
                     status=200;
-                    message={token:accesstoken};
+                    message={accesstoken};
                 }
             })
            

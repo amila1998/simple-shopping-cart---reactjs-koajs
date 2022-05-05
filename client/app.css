@@ -1,3 +1,8 @@
+*{
+    font-family: 'Trebuchet MS', sans-serif;
+}
+  
+
 .body{
     width: 100%;
     height: 100%;
@@ -24,4 +29,29 @@ footer{
 main{
     padding: 15px;
     margin: auto;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: rgb(214, 214, 214);
+}
+
+button{
+    border: 2px solid rgb(129, 129, 129);
+    border-radius: 20px;
+}
+
+button:active{
+    border: 2px solid rgb(192, 185, 255);
+}
+
+input:focus,
+select:focus{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+input,
+select{
+    margin: 0 0 10px 0;
+    border: 2px solid rgb(129, 129, 129);
+    border-radius: 20px;
 }
