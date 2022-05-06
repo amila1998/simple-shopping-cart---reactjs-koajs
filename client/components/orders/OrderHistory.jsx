@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {GlobalState} from '../../GlobalState';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-//import './history.css';
+import './order.css';
 
 
 function OrderHistory() {
@@ -44,7 +44,7 @@ function OrderHistory() {
                 <thead>
                     <tr>
                         <th>Order ID</th>
-                        <th>User Email</th>
+                        <th>User Details</th>
                         <th>Promotion Code</th>
                         <th>Items</th>
                         <th>Shipping Address</th>
@@ -56,9 +56,9 @@ function OrderHistory() {
                         history.map(items => (
                             <tr key={items.orderID}>
                                 <td>{items.orderID}</td>
-                                <td><Link to={`/userDetails/${items.userEmail}`}>{items.userEmail}</Link></td>
+                                <td><Link to={`/userDetails/${items.userEmail}`}>View</Link></td>
                                 <td>{items.promotionCode}</td>
-                                <td><Link to={`/items/${items.orderID}`}>View</Link></td>
+                                <td><Link to={`/Orderitems/${items.orderID}`}>View</Link></td>
                                 <td>{items.address}</td>
                                 <td>{items.total}</td>
                             </tr>

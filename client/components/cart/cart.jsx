@@ -18,11 +18,29 @@ function Cart() {
         setAddress(e.target.value);
       };
 
+      const check =async()=>{
+        if (promotionCode!="") {
+            const res =await axios.get(`http://localhost:5000/items/getAPromotionCode/${promotionCode}`);
+            console.log(res);
+            console.log(res.status);
+            if (res.status!=200) {
+                setCheckPCode(false)
+            } else {
+                setCheckPCode(!checkPCode)
+            }
+            
+        } else {
+            setCheckPCode(false)
+        }
+        
+    }
+
       const handleChange2 = (e) => {
         setPromotionCode(e.target.value);
+        check();
+
       };
    
-
     useEffect(() =>{
         const getTotal = () =>{
             const total = cart.reduce((prev, item) => {
@@ -35,24 +53,6 @@ function Cart() {
         getTotal()
 
     },[cart])
-
-    useEffect(() =>{
-        const check =async()=>{
-            if (promotionCode!="") {
-                const res =await axios.get(`http://localhost:5000/items/getAPromotionCode/${promotionCode}`);
-                if (res.status!=200) {
-                    setCheckPCode(false)
-                } else {
-                    setCheckPCode(true)
-                }
-                
-            } else {
-                setCheckPCode(false)
-            }
-        }
-        check();
-
-    },[])
 
     const addToCart = async (cart) =>{
        try {
@@ -112,7 +112,7 @@ function Cart() {
                         <label>Payment Type: Cash on Delivery</label><br/><br/>
                         <label>Promotion Code: </label><br/>
                         <input type="text" onChange={handleChange2}/><br/>
-                            {promotionCode!=""&& !checkPCode && <><label className='err'>Invalide Promotion code</label><br/></>}<br/>
+                            {promotionCode==""?<></> : checkPCode===false ? <><label className='err'>Invalide Promotion code</label><br/></>:<><label className='succ'>Promotion code Veryfied</label><br/></>}<br/>
                         <label>Shipping Address: </label><br/>
                         <textarea onChange={handleChange}  id='txt1' required></textarea>
                     </div>

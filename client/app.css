@@ -46,11 +46,13 @@ button:active{
 }
 
 input:focus,
-select:focus{
+select:focus,
+textarea:focus{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 input,
-select{
+select,
+textarea{
     margin: 0 0 10px 0;
     border: 2px solid rgb(129, 129, 129);
     border-radius: 20px;

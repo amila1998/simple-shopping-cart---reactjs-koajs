@@ -58,7 +58,7 @@ function Promotion() {
         setID(promotionCode)
         setPromotion(...promotion,{promotionCode,title,description,precentage})
         setOnEdit(true)
-        window.location.href = "/promotions";
+
     }
 
     const deletePromotion = async id =>{

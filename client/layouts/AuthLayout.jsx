@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Forgot from '../components/forgotPassword/Forgot';
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
 import "./authLayout.css";
@@ -9,7 +8,7 @@ const AuthLayout = () => {
 
     const [login, setLogin] = useState(true);
     const [register, setRegister] = useState(false);
-    const [forgot, setForgot] = useState(false);
+
 
     const handleLogin = () => {
         setLogin(true);
@@ -36,7 +35,7 @@ const AuthLayout = () => {
       {/* form */}
       {login && <Login />}
       {register && <Register />}
-      {forgot && <Forgot />}
+
       {/* actions */}
       <div className="authlayout_actions">
         <p
@@ -44,9 +43,6 @@ const AuthLayout = () => {
           onClick={login ? handleRegister : handleLogin}
         >
           {login ? "Register ?" : "Login ?"}
-        </p>
-        <p className="authlayout_actions-r" onClick={handleForgot}>
-          Forgot Password?
         </p>
       </div>
  

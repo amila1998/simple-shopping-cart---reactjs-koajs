@@ -35,7 +35,7 @@ export const Header = () => {
   const customerRouter = () =>{
     return(
         <>
-        <Link to="/watchList">Watched List</Link>
+        <Link to="/watchList">Wish List</Link>
         </>
     )
 }

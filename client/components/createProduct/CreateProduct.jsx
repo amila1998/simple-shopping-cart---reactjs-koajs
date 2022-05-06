@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from 'react';
 import axios from 'axios';
 import {GlobalState} from '../../GlobalState';
 import {useNavigate, useParams} from 'react-router-dom';
-//import  "./createProduct.css";
+import  "./createProduct.css";
 
 
 const initialState = {
@@ -124,13 +124,14 @@ function CreateProduct() {
 
                 <div className="row">
                     <label htmlFor="qty">Qty</label>
-                    <textarea type="text" name="qty" id="qty" required
-                    value={product.qty} rows="7" onChange={handleChangeInput} />
+                    <input type="number" name="qty" id="qty" required
+                    value={product.qty}  onChange={handleChangeInput} />
                 </div>
 
                 <div className="row">
-                    <label htmlFor="categories">Categories: </label>
-                   
+                    <label htmlFor="category">Category: </label>
+                    <input type="text" name="category" id="category" required
+                    value={product.category} onChange={handleChangeInput} />
                 </div>
 
                 <button type="submit">{onEdit? "Update" : "Create"}</button>
