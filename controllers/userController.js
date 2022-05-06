@@ -157,8 +157,9 @@ export const getUserDetails = async(ctx)=>{
         const email = ctx.params.email;
         const user = await users.has(email);
         if (user) {
-            status=200;
-            message= await users.get(email);
+           const userD = await users.get(email);
+           status=200;
+           message= {email:userD.email,name:userD.name}
         } else {
             status=404;
             message= "user Not Found!";

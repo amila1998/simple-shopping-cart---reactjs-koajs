@@ -39,7 +39,7 @@ function Cart() {
     useEffect(() =>{
         const check =async()=>{
             if (promotionCode!="") {
-                const res =await axios.patch(`http://localhost:5000/items/getAPromotionCode/${promotionCode}`);
+                const res =await axios.get(`http://localhost:5000/items/getAPromotionCode/${promotionCode}`);
                 if (res.status!=200) {
                     setCheckPCode(false)
                 } else {
@@ -56,7 +56,7 @@ function Cart() {
 
     const addToCart = async (cart) =>{
        try {
-        const res = await axios.patch('http://localhost:5000/items/addCart', {cart}, {
+        const res = await axios.post('http://localhost:5000/items/addCart', {cart}, {
             headers: {Authorization: token}
         })
         alert(res.data.msg);
@@ -64,6 +64,7 @@ function Cart() {
         alert(err.message.data);
        }
     }
+
 
     const removeProduct = id =>{
         if(window.confirm("Do you want to delete this product?")){
