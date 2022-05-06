@@ -29,11 +29,7 @@ export const register = async (ctx)=>{
 
                 message={msg:"Registration Successfull !!! , Please Login :)"};
                 status=200;
-
-                
-
-                
-    
+   
             }
         }
        
@@ -65,7 +61,7 @@ export const login = async(ctx)=>{
                 const accesstoken = createAccessToken({email: userDetails.email})
                 const refreshtoken = createRefreshToken({email: userDetails.email})
 
-                // window.cookies.set('refreshtoken', refreshtoken, { 
+                // ctx.cookies.set('refreshtoken', refreshtoken, { 
                 //     httpOnly: true, 
                 //     // secureProxy: true,
                 //     path: '/user/refresh_token',

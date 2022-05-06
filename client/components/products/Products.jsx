@@ -35,7 +35,6 @@ function Products() {
         <div className="products">
             {
                 products.map(product => {
-                    console.log(product.itemID)
                     return <ProductItem key={product.itemID} product={product}
                     isTrader={isTrader} deleteProduct={deleteProduct} />
                 })
