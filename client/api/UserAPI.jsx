@@ -9,7 +9,7 @@ const UserAPI = (token) => {
     const [isTrader, setIsTrader] = useState(false);
     const [cart, setCart] = useState([]);
     const [watchList, setWatchList] = useState([]);
-    const [history, setHistory] = useState([]);
+
     const [userName, setuserName] = useState("");
 
 
@@ -60,14 +60,17 @@ const UserAPI = (token) => {
                    if (res.status!=200) {
                        
                    } else {
+                    if(res){
+                        console.log(res);
+                        setWatchList(res.data.watchedList.watchList)
+                    }
                    
-                    setWatchList(res.data.watchList.watchList)
                    }
                   
                     
 
                 } catch (err) {
-                    console.log(err.response.data)
+                    console.log(err)
                 }
             }
 
@@ -89,9 +92,10 @@ const UserAPI = (token) => {
         if(check){
             setCart([...cart, {...product, quantity: 1}])
 
-            await axios.post('http://localhost:5000/items/addCart', {cart: [...cart, {...product, quantity: 1}]}, {  
+            const res =  await axios.post('http://localhost:5000/items/addCart', {cart: [...cart, {...product, quantity: 1}]}, {  
             headers: {Authorization: token}
             })
+            alert(res.data);
 
         }else{
             alert("This product has been added to cart.")
@@ -108,9 +112,10 @@ const UserAPI = (token) => {
         if(check){
             setWatchList([...watchList, {...product}])
 
-            await axios.post('http://localhost:5000/items/addwatchList', {watchList: [...watchList, {...product}]}, {
+            const res = await axios.post('http://localhost:5000/items/addwatchList', {watchList: [...watchList, {...product}]}, {
                 headers: {Authorization: token}
             })
+            alert(res.data);
 
         }else{
             alert("This product has been added to cart.")
@@ -124,7 +129,6 @@ const UserAPI = (token) => {
     addCart: addCart,
     watchList: [watchList, setWatchList],
     addWatchList: addWatchList,
-    //history: [history, setHistory],
     user:[userName, setuserName]
 }
 }
