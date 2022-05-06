@@ -100,3 +100,7 @@ p{
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+
+.err{
+    color: red;
+}

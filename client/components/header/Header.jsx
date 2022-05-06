@@ -27,16 +27,23 @@ export const Header = () => {
       return(
           <>
               <Link to="/create_product">Create Product</Link>
-              <Link to="/category">Categories</Link>
+              <Link to="/promotions">Promotions</Link>              
+              <Link to="/orders">Orders</Link>
           </>
       )
   }
+  const customerRouter = () =>{
+    return(
+        <>
+        <Link to="/watchList">Watched List</Link>
+        </>
+    )
+}
 
   const loggedRouter = () =>{
       return(
           <>
-             <Link to="/history">My Purchases</Link>
-             <Link to="/watchList">Watched List</Link>
+        
              <Link to="/" onClick={logoutUser}>Logout</Link>
           </>
       )
@@ -58,7 +65,7 @@ export const Header = () => {
           </a>
           <div className='navigetor'>
            
-            {isTrader && traderRouter()}
+            {isTrader? traderRouter():customerRouter()}
             {
                     isLogged ? loggedRouter() :<button onClick={handleOnClick}>Login</button>
             }

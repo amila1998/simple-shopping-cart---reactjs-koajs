@@ -6,6 +6,7 @@ const Login = () => {
   const [user, setUser] = useState({
     email:'', password: ''
 });
+console.log(user);
 
 const onChangeInput = (e) =>{
   const {name, value} = e.target;
@@ -16,6 +17,7 @@ const loginSubmit = async (e) =>{
   e.preventDefault()
   try {
       const res = await axios.post('http://localhost:5000/user/login', {...user})
+      console.log(res);
       alert(res.data.msg);
 
       localStorage.setItem('firstLogin', true);

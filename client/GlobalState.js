@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import ProductsAPI from './api/ProductsAPI'
 import UserAPI from './api/UserAPI'
+import PromotionAPI from './api/PromotionAPI'
 
 
 import axios from 'axios'
@@ -43,6 +44,7 @@ export const DataProvider = ({children}) =>{
         token: [token, setToken],
         productsAPI: ProductsAPI(),
         userAPI: UserAPI(token),
+        promotionAPI:PromotionAPI(),
         
         
     }

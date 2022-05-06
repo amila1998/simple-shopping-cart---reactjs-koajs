@@ -19,7 +19,6 @@ export const addCart = async(ctx)=>{
         status=200;
         message=err.message;
     }
-    ctx.set('Access-Control-Allow-Origin', '*');
     ctx.body = message;
     ctx.status = status;
 };
@@ -189,23 +188,18 @@ export const allItems=async(ctx) =>{
 
 export const addPromotions = async(ctx)=>{
     try {
-        const itemID = ctx.params.itemID;
-        const item = await items.has(itemID);
-        if (!item) {
-            status=404;
-            message="Ïtem Not Found";
-        } else {
+      
             const {promotionCode,title,description,precentage} = ctx.request.body;
             const existPromotion = await promotions.has(promotionCode);
             if (existPromotion) {
                 status=400;
                 message="Already Have that Promotion";
             } else {
-                await promotions.set(promotionCode,{promotionCode:promotionCode,itemID:itemID,title:title,description:description,precentage:description});
+                await promotions.set(promotionCode,{promotionCode:promotionCode,title:title,description:description,precentage:precentage});
                 status=200;
                 message="Promotion added !!!";
             }
-        }
+     
     } catch (err) {
         status=500;
         message=err.message;
@@ -228,3 +222,64 @@ export const viewPromotions = async(ctx)=>{
     ctx.body = message;
     ctx.status = status;
 }
+
+export const getAPromotionCode = async(ctx)=>{
+    try {
+        const promotionCode= ctx.request.params.promotionCode;
+        if(promotions.has(promotionCode)){
+            const {promotionCode,title,description,precentage} = ctx.request.body;
+            await promotions.set(promotionCode,{promotionCode:promotionCode,title:title,description:description,precentage:precentage});
+            status=200;
+            message="Promotion added !!!";
+        }else{
+            message= "Promotion code not Found";
+            status=400
+        }
+    } catch (error) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+export const editPromotion = async(ctx)=>{
+    try {
+        const promotionCode= ctx.request.params.promotionCode;
+        if(promotions.has(promotionCode)){
+            const {promotionCode,title,description,precentage} = ctx.request.body;
+            await promotions.set(promotionCode,{promotionCode:promotionCode,title:title,description:description,precentage:precentage});
+            status=200;
+            message="Promotion Updated !!!";
+        }else{
+            message= "Promotion code not Found";
+            status=400
+        }
+    } catch (error) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+
+export const deletePromotion = async(ctx)=>{
+    try {
+        const promotionCode= ctx.request.params.promotionCode;
+        if(promotions.has(promotionCode)){
+           
+            await promotions.delete(promotionCode);
+            status=200;
+            message="Promotion deleted !!!";
+        }else{
+            message= "Promotion code not Found";
+            status=400
+        }
+    } catch (error) {
+        status=500;
+        message=err.message;
+    }
+    ctx.body = message;
+    ctx.status = status;
+}
+

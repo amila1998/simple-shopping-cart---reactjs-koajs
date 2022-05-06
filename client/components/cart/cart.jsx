@@ -5,15 +5,21 @@ import './cart.css';
 
 
 function Cart() {
-    const state = useContext(GlobalState)
-    const [user] = state.userAPI.user
-    const [cart, setCart] = state.userAPI.cart
-    const [token] = state.token
-    const [total, setTotal] = useState(0)
-    const [address, setAddress] = useState("")
+    const state = useContext(GlobalState);
+    const [user] = state.userAPI.user;
+    const [cart, setCart] = state.userAPI.cart;
+    const [token] = state.token;
+    const [total, setTotal] = useState(0);
+    const [address, setAddress] = useState("");
+    const [promotionCode, setPromotionCode] = useState("");
+    const [checkPCode, setCheckPCode]=useState(false);
 
     const handleChange = (e) => {
         setAddress(e.target.value);
+      };
+
+      const handleChange2 = (e) => {
+        setPromotionCode(e.target.value);
       };
    
 
@@ -30,6 +36,24 @@ function Cart() {
 
     },[cart])
 
+    useEffect(() =>{
+        const check =async()=>{
+            if (promotionCode!="") {
+                const res =await axios.patch(`http://localhost:5000/items/getAPromotionCode/${promotionCode}`);
+                if (res.status!=200) {
+                    setCheckPCode(false)
+                } else {
+                    setCheckPCode(true)
+                }
+                
+            } else {
+                setCheckPCode(false)
+            }
+        }
+        check();
+
+    },[])
+
     const addToCart = async (cart) =>{
        try {
         const res = await axios.patch('http://localhost:5000/items/addCart', {cart}, {
@@ -39,29 +63,6 @@ function Cart() {
        } catch (err) {
         alert(err.message.data);
        }
-    }
-
-
-    const increment = (id) =>{
-        cart.forEach(item => {
-            if(item._id === id){
-                item.quantity += 1
-            }
-        })
-
-        setCart([...cart])
-        addToCart(cart)
-    }
-
-    const decrement = (id) =>{
-        cart.forEach(item => {
-            if(item.itemID === id){
-                item.quantity === 1 ? item.quantity = 1 : item.quantity -= 1
-            }
-        })
-
-        setCart([...cart])
-        addToCart(cart)
     }
 
     const removeProduct = id =>{
@@ -83,10 +84,10 @@ function Cart() {
 
         }else{
             try {
-                const res = await axios.post('/api/order', {cart, total, address}, {
+                const res = await axios.post('http://localhost:5000/orders/addOrder', {cart, total, address , promotionCode}, {
                     headers: {Authorization: token}
                 })
-                alert(res.data.msg);
+                alert(res.data);
                     setCart([])
                     addToCart([])
             
@@ -96,11 +97,6 @@ function Cart() {
             }
            
         }
-
-       
-
-        
-       
     }
 
 
@@ -113,8 +109,11 @@ function Cart() {
                     <div>
                         <label>Name: {user}</label><br/><br/>
                         <label>Payment Type: Cash on Delivery</label><br/><br/>
-                        <label>Shipping Address: </label>
-                        <textarea onChange={handleChange}  id='txt1'></textarea>
+                        <label>Promotion Code: </label><br/>
+                        <input type="text" onChange={handleChange2}/><br/>
+                            {promotionCode!=""&& !checkPCode && <><label className='err'>Invalide Promotion code</label><br/></>}<br/>
+                        <label>Shipping Address: </label><br/>
+                        <textarea onChange={handleChange}  id='txt1' required></textarea>
                     </div>
                     <h3 className="total"> Total: $ {total}</h3>
                     <button  onClick={tranSuccess} > placed an order </button>
@@ -133,12 +132,6 @@ function Cart() {
                            <h3>$ {product.price * product.quantity}</h3>
                            <p>{product.description}</p>
                            <p>{product.content}</p>
-
-                           <div className="amount">
-                               <button onClick={() => decrement(product.itemID)}> - </button>
-                               <span>{product.quantity}</span>
-                               <button onClick={() => increment(product.itemID)}> + </button>
-                           </div>
                            
                            <div className="delete" 
                            onClick={() => removeProduct(product.itemID)}>

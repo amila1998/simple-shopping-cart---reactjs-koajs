@@ -3,7 +3,9 @@ import {Navigate, Route, Routes } from 'react-router-dom'
 import Cart from './components/cart/cart'
 import CreateProduct from './components/createProduct/CreateProduct'
 import DetailProduct from './components/detailProduct/DetailProduct'
+import OrderHistory from './components/orders/OrderHistory'
 import Products from './components/products/Products'
+import Promotion from './components/promotions/Promotion'
 import WatchedList from './components/watchedList/watchedList'
 import { GlobalState } from './GlobalState'
 import AuthLayout from './layouts/AuthLayout'
@@ -17,6 +19,8 @@ const MainPages = () => {
             <Route path="/" element={<Products/>} />
             <Route path="/authentication" element={isLogged ? <Navigate to="/"/> : <AuthLayout/>} />
             <Route path="/cart" element={<Cart/>} />
+            <Route path="/orders" element={isTrader ?<OrderHistory/>: <Navigate to="/"/>} />
+            <Route path="/promotions" element={isTrader ?<Promotion/>: <Navigate to="/"/>} />
             <Route path="/watchList" element={<WatchedList/>} />
             <Route path="/detail/:id" element={<DetailProduct/>}/>
             <Route path="/create_product" element={isTrader ? <CreateProduct/> : <Navigate to="/"/>} />
