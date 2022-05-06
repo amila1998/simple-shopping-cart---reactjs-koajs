@@ -11,6 +11,7 @@ function DetailProduct() {
     const state = useContext(GlobalState)
     const [products] = state.productsAPI.products
     const addCart = state.userAPI.addCart
+    const addWatchList = state.userAPI.addWatchList
     const [detailProduct, setDetailProduct] = useState([])
 
     useEffect(() =>{
@@ -42,7 +43,7 @@ function DetailProduct() {
                         Add to cart
                     </Link>
                     <Link to="" className="cart"
-                    /* onClick={() => addCart(detailProduct)}*/>
+                     onClick={() => addWatchList(detailProduct)}>
                         Add to Watch List
                     </Link>
                 </div>

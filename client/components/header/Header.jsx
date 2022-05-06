@@ -36,6 +36,7 @@ export const Header = () => {
       return(
           <>
              <Link to="/history">My Purchases</Link>
+             <Link to="/watchList">Watched List</Link>
              <Link to="/" onClick={logoutUser}>Logout</Link>
           </>
       )

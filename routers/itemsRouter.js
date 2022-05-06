@@ -8,8 +8,8 @@ const itemsRouter = new koaRouter(({ prefix: '/items' }));
 itemsRouter.post('/addCart',auth, addCart);
 itemsRouter.get('/getCart',auth, getCart);
 
-itemsRouter.post('/addWatchedList',auth, addWatchedList);
-itemsRouter.get('/getWatchedList',auth, getwatchedList);
+itemsRouter.post('/addwatchList',auth, addWatchedList);
+itemsRouter.get('/getWatchList',auth, getwatchedList);
 
 itemsRouter.get('/allItems',allItems);
 itemsRouter.post('/createItems',createItem);

@@ -8,6 +8,7 @@ const UserAPI = (token) => {
     const [isLogged, setIsLogged] = useState(false);
     const [isTrader, setIsTrader] = useState(false);
     const [cart, setCart] = useState([]);
+    const [watchList, setWatchList] = useState([]);
     const [history, setHistory] = useState([]);
     const [userName, setuserName] = useState("");
 
@@ -49,8 +50,30 @@ const UserAPI = (token) => {
                 }
             }
 
+            const getWatchList = async()=>{
+                try {
+                    const res = await axios.get('http://localhost:5000/items/getWatchList', {
+                        headers: {Authorization: token}
+                    })
+
+                   console.log(res.status);
+                   if (res.status!=200) {
+                       
+                   } else {
+                   
+                    setWatchList(res.data.watchList.watchList)
+                   }
+                  
+                    
+
+                } catch (err) {
+                    console.log(err.response.data)
+                }
+            }
+
             getUser()
             getCart()
+            getWatchList()
             
         }
     },[token])
@@ -66,7 +89,26 @@ const UserAPI = (token) => {
         if(check){
             setCart([...cart, {...product, quantity: 1}])
 
-            await axios.post('http://localhost:5000/items/addCart', {cart: [...cart, {...product, quantity: 1}]}, {
+            await axios.post('http://localhost:5000/items/addCart', {cart: [...cart, {...product, quantity: 1}]}, {  
+            headers: {Authorization: token}
+            })
+
+        }else{
+            alert("This product has been added to cart.")
+        }
+    }
+
+    const addWatchList = async (product) => {
+        if(!isLogged) return alert("Please login to continue buying")
+
+        const check = watchList.every(item =>{
+            return item.itemID !== product.itemID
+        })
+
+        if(check){
+            setWatchList([...watchList, {...product}])
+
+            await axios.post('http://localhost:5000/items/addwatchList', {watchList: [...watchList, {...product}]}, {
                 headers: {Authorization: token}
             })
 
@@ -80,6 +122,8 @@ const UserAPI = (token) => {
     isTrader: [isTrader, setIsTrader],
     cart: [cart, setCart],
     addCart: addCart,
+    watchList: [watchList, setWatchList],
+    addWatchList: addWatchList,
     //history: [history, setHistory],
     user:[userName, setuserName]
 }

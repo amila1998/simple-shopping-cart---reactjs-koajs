@@ -19,6 +19,7 @@ export const addCart = async(ctx)=>{
         status=200;
         message=err.message;
     }
+    ctx.set('Access-Control-Allow-Origin', '*');
     ctx.body = message;
     ctx.status = status;
 };
@@ -60,9 +61,9 @@ export const addWatchedList = async(ctx)=>{
             message="User does not exist."
         }else{
             const watchedList = ctx.request.body;
-            await myWatchedList.set(ctx.request.user.email,{email:ctx.request.user.email,Items:watchedList});
+            await myWatchedList.set(ctx.request.user.email,{email:ctx.request.user.email,watchedList:watchedList});
             status=200;
-            message="Added to cart";
+            message="Added to watched list";
         }
 
     } catch (err) {
@@ -87,7 +88,7 @@ export const getwatchedList = async(ctx)=>{
                 message=watchedList ;
             } else {
                 status=200;
-                message="no Items" ;
+                message="no watched list items" ;
             }
         }
 

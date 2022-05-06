@@ -1,6 +1,6 @@
 import koa from 'koa';
 import json from "koa-json";
-import cors from "koa-cors";
+import cors from "@koa/cors";
 import bodyparser from 'koa-bodyparser';
 import CookieParser from 'koa-cookie-parser';
 
@@ -13,10 +13,12 @@ const app = new koa();
 
 app.use(bodyparser());
 app.use(json());
-app.use(cors({
-    credentials:true,
-    origin:'http://localhost:3000',
-}));
+app.use(cors());
+// {
+//     origin: true,
+//     credentials: true,
+//     Access-Control-Allow-Methods
+// }
 app.use(CookieParser({
     cookieNameList:['refreshtoken'],
 }));

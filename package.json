@@ -24,6 +24,7 @@
     "nodemon": "^2.0.16"
   },
   "dependencies": {
+    "@koa/cors": "^3.3.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^7.1.0",

@@ -1,13 +1,13 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {GlobalState} from '../../GlobalState';
 import axios from 'axios';
-import './cart.css';
+import '../cart/cart.css';
 
 
-function Cart() {
+function WatchedList() {
     const state = useContext(GlobalState)
     const [user] = state.userAPI.user
-    const [cart, setCart] = state.userAPI.cart
+    const [watchList, setWatchList] = state.userAPI.watchList
     const [token] = state.token
     const [total, setTotal] = useState(0)
     const [address, setAddress] = useState("")
@@ -19,7 +19,7 @@ function Cart() {
 
     useEffect(() =>{
         const getTotal = () =>{
-            const total = cart.reduce((prev, item) => {
+            const total = watchList.reduce((prev, item) => {
                 return prev + (item.price * item.quantity)
             },0)
 
@@ -28,11 +28,11 @@ function Cart() {
 
         getTotal()
 
-    },[cart])
+    },[watchList])
 
-    const addToCart = async (cart) =>{
+    const addToWatchList = async (watchList) =>{
        try {
-        const res = await axios.patch('http://localhost:5000/items/addCart', {cart}, {
+        const res = await axios.patch('http://localhost:5000/items/addWatchList', {watchList}, {
             headers: {Authorization: token}
         })
         alert(res.data.msg);
@@ -43,37 +43,37 @@ function Cart() {
 
 
     const increment = (id) =>{
-        cart.forEach(item => {
+        watchList.forEach(item => {
             if(item._id === id){
                 item.quantity += 1
             }
         })
 
-        setCart([...cart])
-        addToCart(cart)
+        setWatchList([...watchList])
+        addToWatchList(watchList)
     }
 
     const decrement = (id) =>{
-        cart.forEach(item => {
+        watchList.forEach(item => {
             if(item.itemID === id){
                 item.quantity === 1 ? item.quantity = 1 : item.quantity -= 1
             }
         })
 
-        setCart([...cart])
-        addToCart(cart)
+        setWatchList([...watchList])
+        addToWatchList(watchList)
     }
 
     const removeProduct = id =>{
         if(window.confirm("Do you want to delete this product?")){
-            cart.forEach((item, index) => {
+           watchList.forEach((item, index) => {
                 if(item.itemID === id){
-                    cart.splice(index, 1)
+                    watchList.splice(index, 1)
                 }
             })
 
-            setCart([...cart])
-            addToCart(cart)
+            setWatchList([...watchList])
+            addToWatchList(watchList)
         }
     }
 
@@ -83,12 +83,12 @@ function Cart() {
 
         }else{
             try {
-                const res = await axios.post('/api/order', {cart, total, address}, {
+                const res = await axios.post('/api/order', {watchList, total, address}, {
                     headers: {Authorization: token}
                 })
                 alert(res.data.msg);
-                    setCart([])
-                    addToCart([])
+                    setWatchList([])
+                    addToWatchList([])
             
                 
             } catch (err) {
@@ -104,8 +104,8 @@ function Cart() {
     }
 
 
-    if(cart.length === 0) 
-        return <h2 style={{textAlign: "center", fontSize: "5rem"}}>Cart Empty</h2> 
+    if(watchList.length === 0) 
+        return <h2 style={{textAlign: "center", fontSize: "5rem"}}>watchList Empty</h2> 
 
     return (
         <div className='cartMain'> 
@@ -123,7 +123,7 @@ function Cart() {
             <div className='cartR'>
            
            {
-               cart.map(product => (
+               watchList.map(product => (
                    <div className="cdetail cart" key={product._id}>
                        <img src={product.img} alt="" />
 
@@ -156,4 +156,4 @@ function Cart() {
     )
 }
 
-export default Cart;
+export default WatchedList;
