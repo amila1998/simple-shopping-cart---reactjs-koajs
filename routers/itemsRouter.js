@@ -12,15 +12,15 @@ itemsRouter.post('/addwatchList',auth, addWatchedList);
 itemsRouter.get('/getWatchList',auth, getwatchedList);
 
 itemsRouter.get('/allItems',allItems);
-itemsRouter.post('/createItems',createItem);
+itemsRouter.post('/createItems',auth,authTrader,createItem);
 itemsRouter.delete('/deleteItem/:itemID',auth,authTrader ,deleteItem);
 itemsRouter.put('/editItem/:itemID',auth,authTrader ,editItem);
 
-itemsRouter.post("/createPromotion",addPromotions);
+itemsRouter.post("/createPromotion",auth,authTrader,addPromotions);
 itemsRouter.get("/getAPromotionCode/:promotionCode",getAPromotionCode);
-itemsRouter.get("/viewPromotions",viewPromotions);
-itemsRouter.put("/updatePromotion/:promotionCode",editPromotion);
-itemsRouter.delete("/deletePromotion/:promotionCode", deletePromotion);
+itemsRouter.get("/viewPromotions",auth,authTrader,viewPromotions);
+itemsRouter.put("/updatePromotion/:promotionCode",auth,authTrader,editPromotion);
+itemsRouter.delete("/deletePromotion/:promotionCode",auth,authTrader, deletePromotion);
 
 
 export default itemsRouter;
